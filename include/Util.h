@@ -24,20 +24,6 @@
 #include <string>
 #include <vector>
 
-#ifndef EXPORT_FILEGDB_API
-# if defined linux || defined __APPLE__
-#  define EXT_FILEGDB_API
-# else
-#  define EXT_FILEGDB_API _declspec(dllimport)
-# endif
-#else
-# if defined linux || defined __APPLE__
-#  define EXT_FILEGDB_API __attribute__((visibility("default")))
-# else
-#  define EXT_FILEGDB_API _declspec(dllexport)
-# endif
-#endif
-
 #include "FileGDBCore.h"
 
 struct IFields;
@@ -135,10 +121,8 @@ public:
 
 private:
 
-#pragma warning(push)
-#pragma warning(disable : 4251)
   std::wstring              m_spatialReference;
-#pragma warning(pop)
+
   int                       m_wkid;
   double                    m_falseX;
   double                    m_falseY;
@@ -208,11 +192,9 @@ public:
 
 private:
 
-#pragma warning(push)
-#pragma warning(disable : 4251)
   std::wstring              m_name;
   std::wstring              m_alias;
-#pragma warning(pop)
+
   FieldType                 m_type;
   int                       m_length;
   bool                      m_isNullable;
@@ -241,11 +223,9 @@ public:
 
 private:
 
-#pragma warning(push)
-#pragma warning(disable : 4251)
   std::wstring              m_name;
   std::wstring              m_fields;
-#pragma warning(pop)
+
   bool                      m_isUnique;
 };
 

@@ -26,7 +26,7 @@
 #include <map>
 
 #ifndef EXPORT_FILEGDB_API
-# if defined linux || defined __APPLE__
+# if defined (linux) || defined(__linux) || defined(__APPLE__)
 #  define EXT_FILEGDB_API
 # else
 #  define EXT_FILEGDB_API _declspec(dllimport)
@@ -142,7 +142,7 @@ public:
   /// Creates a new table. This can either be a table or a feature class. If a geometry is to support Zs or Ms (measures), HasZ
   /// and or HasM must be set to true in the GeometryDef in the XML. The ZOrigin, MOrigin, ZScale and MScale
   /// must also be set in the SpatialReferences in the XML. These do not default.
-  /// See the samlples\XMLsamples\FC_GCS_LineMin.xml for an example. Domain definitions in the table XML definition 
+  /// See the samlples\XMLsamples\FC_GCS_LineMin.xml for an example. Domain definitions in the table XML definition
   /// will be ignored. Use Table.AlterField to assign a domain. <br/>
   /// If the table already exists, a -2147220653 (The table already exists) error will be returned.<br/>
   /// If the table name is missing from the XML, a -2147220654 (The table name is invalid) error will be returned.<br/>
@@ -269,12 +269,7 @@ private:
 
   Catalog* m_pCatalog;
 
-#pragma warning(push)
-#pragma warning(disable : 4251)
-
   std::map<Table*, Table*> m_tableROT;
-
-#pragma warning(pop)
 
   friend EXT_FILEGDB_API fgdbError CreateGeodatabase(const std::wstring& path, Geodatabase& geodatabase);
   friend EXT_FILEGDB_API fgdbError OpenGeodatabase(const std::wstring& path, Geodatabase& geodatabase);

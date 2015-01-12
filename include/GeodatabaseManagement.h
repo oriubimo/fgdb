@@ -27,10 +27,10 @@
 #include <string>
 
 #ifndef EXPORT_FILEGDB_API
-# if defined linux || defined __APPLE__
+# if defined linux || defined (__linux) || defined __APPLE__
 #  define EXT_FILEGDB_API
 # else
-#  define EXT_FILEGDB_API _declspec(dllimport)
+#  error fooo
 # endif
 #else
 # if defined linux || defined __APPLE__

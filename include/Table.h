@@ -24,20 +24,6 @@
 #include <string>
 #include <vector>
 
-#ifndef EXPORT_FILEGDB_API
-# if defined linux || defined __APPLE__
-#  define EXT_FILEGDB_API
-# else
-#  define EXT_FILEGDB_API _declspec(dllimport)
-# endif
-#else
-# if defined linux || defined __APPLE__
-#  define EXT_FILEGDB_API __attribute__((visibility("default")))
-# else
-#  define EXT_FILEGDB_API _declspec(dllexport)
-# endif
-#endif
-
 #include "FileGDBCore.h"
 
 class Datafile;
@@ -275,16 +261,12 @@ private:
   fgdbError SetupTable(const std::wstring& path, Geodatabase* pGeodatabase, Datafile* pDatafile);
   bool      IsSetup() const;
 
-#pragma warning(push)
-#pragma warning(disable : 4251)
 
   Geodatabase*    m_pGeodatabase;
   Datafile*       m_pDatafile;
   std::wstring    m_Path;
   AutoLock*       m_pWriteLock;
   int             m_isEditable;
-
-#pragma warning(pop)
 
   friend class    Geodatabase;
 
