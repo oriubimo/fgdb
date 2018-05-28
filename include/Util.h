@@ -3,7 +3,7 @@
 //
 
 /*
-  COPYRIGHT © 2012 ESRI
+  COPYRIGHT © 2015 ESRI
   TRADE SECRETS: ESRI PROPRIETARY AND CONFIDENTIAL
   Unpublished material - all rights reserved under the
   Copyright Laws of the United States and applicable international
@@ -23,6 +23,20 @@
 
 #include <string>
 #include <vector>
+
+#ifndef EXPORT_FILEGDB_API
+# if defined __linux__ || defined __APPLE__
+#  define EXT_FILEGDB_API
+# else
+#  define EXT_FILEGDB_API _declspec(dllimport)
+# endif
+#else
+# if defined __linux__ || defined __APPLE__
+#  define EXT_FILEGDB_API __attribute__((visibility("default")))
+# else
+#  define EXT_FILEGDB_API _declspec(dllexport)
+# endif
+#endif
 
 #include "FileGDBCore.h"
 
@@ -98,41 +112,52 @@ public:
   fgdbError GetSpatialReferenceText(std::wstring& spatialReference) const;
   fgdbError SetSpatialReferenceText(const std::wstring& spatialReference);
 
-  fgdbError GetSpatialReferenceID(int& wkid);
-  fgdbError SetSpatialReferenceID(int  wkid);
+  fgdbError GetSpatialReferenceID(int& srid);
+  fgdbError SetSpatialReferenceID(int  srid);
 
-  fgdbError GetFalseOriginAndUnits(double& falseX, double& falseY, double& xyUnits);
-  fgdbError SetFalseOriginAndUnits(double  falseX, double  falseY, double  xyUnits);
+  fgdbError GetXYFalseOrigin(double& falseX, double& falseY);
+  fgdbError SetXYFalseOrigin(double  falseX, double  falseY);
 
-  fgdbError GetZFalseOriginAndUnits(double& falseZ, double& zUnits);
-  fgdbError SetZFalseOriginAndUnits(double  falseZ, double  zUnits);
-
-  fgdbError GetMFalseOriginAndUnits(double& falseM, double& mUnits);
-  fgdbError SetMFalseOriginAndUnits(double  falseM, double  mUnits);
+  fgdbError GetXYResolution(double& xyResolution);
+  fgdbError SetXYResolution(double  xyResolution);
 
   fgdbError GetXYTolerance(double& xyTolerance);
   fgdbError SetXYTolerance(double  xyTolerance);
 
+  fgdbError GetZFalseOrigin(double& falseZ);
+  fgdbError SetZFalseOrigin(double  falseZ);
+
+  fgdbError GetZResolution(double& zResolution);
+  fgdbError SetZResolution(double  zResolution);
+
   fgdbError GetZTolerance(double& zTolerance);
   fgdbError SetZTolerance(double  zTolerance);
+
+  fgdbError GetMFalseOrigin(double& falseM);
+  fgdbError SetMFalseOrigin(double  falseM);
+
+  fgdbError GetMResolution(double& mResolution);
+  fgdbError SetMResolution(double  mResolution);
 
   fgdbError GetMTolerance(double& mTolerance);
   fgdbError SetMTolerance(double  mTolerance);
 
 private:
 
+#pragma warning(push)
+#pragma warning(disable : 4251)
   std::wstring              m_spatialReference;
-
+#pragma warning(pop)
   int                       m_wkid;
   double                    m_falseX;
   double                    m_falseY;
-  double                    m_XYUnits;
-  double                    m_falseZ;
-  double                    m_ZUnits;
-  double                    m_falseM;
-  double                    m_MUnits;
+  double                    m_XYResolution;
   double                    m_XYTolerance;
+  double                    m_falseZ;
+  double                    m_ZResolution;
   double                    m_ZTolerance;
+  double                    m_falseM;
+  double                    m_MResolution;
   double                    m_MTolerance;
 };
 
@@ -192,9 +217,11 @@ public:
 
 private:
 
+#pragma warning(push)
+#pragma warning(disable : 4251)
   std::wstring              m_name;
   std::wstring              m_alias;
-
+#pragma warning(pop)
   FieldType                 m_type;
   int                       m_length;
   bool                      m_isNullable;
@@ -223,9 +250,11 @@ public:
 
 private:
 
+#pragma warning(push)
+#pragma warning(disable : 4251)
   std::wstring              m_name;
   std::wstring              m_fields;
-
+#pragma warning(pop)
   bool                      m_isUnique;
 };
 
